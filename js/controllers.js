@@ -1,13 +1,30 @@
 angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
 .controller('AppCtrl',function($scope, $ionicSideMenuDelegate, $indexedDB) {
 
-    $scope.items = [];
+   $scope.items = [];
     $scope.isEdit = false;
 
 
-    $scope.toggleLeft = function() {
+    // $scope.objects = [];
+
+    // var OBJECT_STORE_NAME = 'people';  
+
+    // /**
+    //  * @type {ObjectStore}
+    //  */
+    // var myObjectStore = $indexedDB.objectStore(OBJECT_STORE_NAME);
+
+    // myObjectStore.insert({"ssn": Math.random(),"name": "John Doe", "age": 57}).then(function(e){ });
+
+    // myObjectStore.getAll().then(function(results) {  
+    //   // Update scope
+    //   $scope.objects = results;
+    // });
+
+  $scope.toggleLeft = function() {
     $ionicSideMenuDelegate.toggleLeft();
-    };    
+  };    
+    
        
 
 })
