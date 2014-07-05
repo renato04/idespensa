@@ -1,13 +1,13 @@
-angular.module('ionicApp.controllers', [])
-.controller('AppCtrl',function($scope, $ionicSideMenuDelegate) {
+angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
+.controller('AppCtrl',function($scope, $ionicSideMenuDelegate, $indexedDB) {
 
-   $scope.items = [];
+    $scope.items = [];
     $scope.isEdit = false;
 
-  $scope.toggleLeft = function() {
+
+    $scope.toggleLeft = function() {
     $ionicSideMenuDelegate.toggleLeft();
-  };    
-    
+    };    
        
 
 })
