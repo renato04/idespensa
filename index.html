@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html ng-app="ionicApp">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+  <title>Ionic-AngularJS-Cordova</title>
+
+  <!-- Ionic framework - replace the CDN links with local files and build -->    
+  <link href="css/ionic.css" rel="stylesheet">
+  <script src="js/ionic.bundle.js"></script>
+  <script src="js/guid.js"></script>
+  <script src="js/controllers.js"></script>
+  <script src="js/app.js"></script>
+    
+
+  <style>
+      .box {height:300px;padding: 10px}
+  </style>      
+</head>
+
+<body ng-controller="AppCtrl">
+
+<ion-side-menus>
+  <!-- Center content -->
+  <ion-side-menu-content>
+
+    <ion-nav-bar class="nav-title-slide-ios7 bar-positive">
+      <ion-nav-back-button class="button-icon ion-arrow-left-c">
+      </ion-nav-back-button>
+    </ion-nav-bar>
+      <ion-nav-buttons side="left">
+        <button class="button button-icon button-clear ion-navicon" ng-click="toggleLeft()">
+        </button>
+      </ion-nav-buttons>    
+             
+    <ion-nav-view animation="slide-left-right" name="main-view"></ion-nav-view>
+
+  </ion-side-menu-content>
+
+  <!-- Left menu -->
+  <ion-side-menu side="left">
+      <div class="list">
+
+        <a menu-close href="#/produto" class="item item-icon-left">
+          <i class="icon ion-home"></i>
+          Novo Produto
+        </a>
+
+      </div>  
+  </ion-side-menu>
+</ion-side-menus>
+
+
+  <script id="home.html" type="text/ng-template">
+ 
+  <ion-view title="Home">
+      <ion-content class="padding">
+          <ion-list>
+            <ion-item ng-repeat="item in items" ng-click="edit(item)">
+              {{item.descricao}}
+              <span class="item-note">
+                {{item.quantidade}}
+              </span>                
+            </ion-item>
+            
+          </ion-list>  
+             
+      </ion-content>
+     </ion-view>
+
+  </script>
+
+
+    
+<script id="produto.html" type="text/ng-template">
+
+   <ion-view title="Produto">
+      <ion-content class="padding">
+          <form name="formProduto">
+          <div class="list">
+              <label class="item item-input">
+                <input type="text" placeholder="Nome do produto"  ng-model="novoProduto.descricao" ng-minlength="3"  required>
+              </label>
+              <label class="item item-input">
+                <input type="number" min="0" placeholder="quantidade" ng-model="novoProduto.quantidade" required>
+              </label>
+            </div>
+            <div class="button-bar">
+              <button class="button button-calm" ng-click="closeModal()">voltar</button>
+              <button class="button button-balanced" ng-click="save(novoProduto)" ng-disabled="formProduto.$invalid">salvar</button>
+            </div>
+          </form>
+      </ion-content>
+    </ion-view>
+ 
+  </div>
+</script>    
+</body>
+</html>
