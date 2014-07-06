@@ -56,4 +56,38 @@ angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
         $scope.closeModal();
 
     };       
+})
+.controller('CategoriaController',function($scope, $indexedDB){
+
+    $scope.safeApply = function(fn) {
+      var phase = this.$root.$$phase;
+      if(phase == '$apply' || phase == '$digest') {
+        if(fn && (typeof(fn) === 'function')) {
+          fn();
+        }
+      } else {
+        this.$apply(fn);
+      }
+    };
+    $scope.items = [];
+
+    var OBJECT_STORE_NAME = 'categoria';  
+
+    var myObjectStore = $indexedDB.objectStore(OBJECT_STORE_NAME);
+
+    //myObjectStore.insert({"id": Guid.raw(), "nome": "Teste 1"});
+
+    myObjectStore.getAll().then(function(results) {  
+      // Update scope
+      $scope.safeApply(function(){
+
+          $scope.items = results;
+
+      });
+    });
+
+
+    $scope.save = function(novoProduto){
+
+    };       
 });

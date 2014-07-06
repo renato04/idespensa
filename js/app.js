@@ -21,6 +21,24 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
+    .state('categoria', {
+      url: "/categoria",
+      views: {
+        'main-view': {
+          templateUrl: "categoria.html",
+          controller: 'CategoriaController'
+        }
+      }
+    })
+    .state('categoria-cadastro', {
+      url: "/categoria-categoria",
+      views: {
+        'main-view': {
+          templateUrl: "categoria-categoria.html",
+          controller: 'CategoriaController'
+        }
+      }
+    });
 
    $urlRouterProvider.otherwise("/");
 

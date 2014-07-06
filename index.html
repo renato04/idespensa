@@ -47,8 +47,13 @@
 
         <a menu-close href="#/produto" class="item item-icon-left">
           <i class="icon ion-home"></i>
-          Novo Produto
+          Produtos
         </a>
+
+        <a menu-close href="#/categoria" class="item item-icon-left">
+          <i class="icon ion-home"></i>
+          Categorias
+        </a>        
 
       </div>  
   </ion-side-menu>
@@ -83,7 +88,7 @@
           <form name="formProduto">
           <div class="list">
               <label class="item item-input">
-                <input type="text" placeholder="Nome do produto"  ng-model="novoProduto.descricao" ng-minlength="3"  required>
+                <input type="text" placeholder="Nome do produto. Ex Arroz 5kg"  ng-model="novoProduto.descricao" ng-minlength="3"  required>
               </label>
               <label class="item item-input">
                 <input type="number" min="0" placeholder="quantidade" ng-model="novoProduto.quantidade" required>
@@ -99,5 +104,31 @@
  
   </div>
 </script>    
+
+<script id="categoria.html" type="text/ng-template">
+
+   <ion-view title="Categorias">
+      <ion-content class="padding">
+          <ion-list>
+            <ion-item ng-repeat="item in items" ng-click="edit(item)">
+              {{item.nome}}
+            </ion-item>
+          </ion-list>  
+      </ion-content>
+    </ion-view>
+ 
+  </div>
+</script>   
+
+<script id="categoria-cadastro.html" type="text/ng-template">
+
+   <ion-view title="Cadsatrp de Categorias">
+      <ion-content class="padding">
+
+      </ion-content>
+    </ion-view>
+ 
+  </div>
+</script> 
 </body>
 </html>
