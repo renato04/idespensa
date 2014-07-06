@@ -84,7 +84,9 @@ angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
       // Update scope
       $scope.safeApply(function(){
 
-          $scope.items = results;
+          //$scope.items = results;
+          $scope.items = _.groupBy(results, function(item) {return item.nome[0]; });    
+          //alert(JSON.stringify($scope.items));  
 
       });
     });
