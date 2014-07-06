@@ -31,10 +31,10 @@ app.config(function($stateProvider, $urlRouterProvider) {
       }
     })
     .state('categoria-cadastro', {
-      url: "/categoria-categoria",
+      url: "/categoria-cadastro",
       views: {
         'main-view': {
-          templateUrl: "categoria-categoria.html",
+          templateUrl: "categoria-cadastro.html",
           controller: 'CategoriaController'
         }
       }
