@@ -126,9 +126,20 @@
 <script id="categoria-cadastro.html" type="text/ng-template">
 
    <ion-view title="Adicionar">
-      <ion-content class="padding">
-
-      </ion-content>
+      <form name="form">
+        <ion-content class="padding">
+   
+            <div class="list">
+                <label class="item item-input">
+                  <input type="text" placeholder="Nome do produto. Ex Besteira"  ng-model="categoria.descricao" ng-minlength="3"  required>
+                </label>
+              </div>
+            
+        </ion-content>
+        <div class="bar bar-footer bar-positive">
+            <button class="button button-balanced" ng-click="save(categoria)" ng-disabled="form.$invalid">salvar</button>
+        </div>         
+      </form>
     </ion-view>
  
   </div>
