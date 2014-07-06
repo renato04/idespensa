@@ -57,7 +57,7 @@ angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
 
     };       
 })
-.controller('CategoriaController',function($scope, $indexedDB){
+.controller('CategoriaController',function($scope, $indexedDB, $ionicNavBarDelegate){
 
     $scope.safeApply = function(fn) {
       var phase = this.$root.$$phase;
@@ -69,7 +69,10 @@ angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
         this.$apply(fn);
       }
     };
+    
     $scope.items = [];
+    $scope.categoria = {}; 
+    $scope.predicate = "nome";
 
     var OBJECT_STORE_NAME = 'categoria';  
 
@@ -87,7 +90,21 @@ angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
     });
 
 
-    $scope.save = function(novoProduto){
+    $scope.save = function(categoria){
+
+        var myObjectStore = $indexedDB.objectStore(OBJECT_STORE_NAME);
+
+        myObjectStore.insert({"id": Guid.raw(), "nome": categoria.nome});
+
+        myObjectStore.getAll().then(function(results) {  
+          // Update scope
+          $scope.safeApply(function(){
+
+            $scope.items = results;
+            $ionicNavBarDelegate.back();
+
+          });
+        });
 
     };       
 });

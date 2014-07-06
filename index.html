@@ -110,7 +110,7 @@
    <ion-view title="Categorias">
       <ion-content class="padding">
           <ion-list>
-            <ion-item ng-repeat="item in items" ng-click="edit(item)">
+            <ion-item ng-repeat="item in items | orderBy:predicate" ng-click="edit(item)">
               {{item.nome}}
             </ion-item>
           </ion-list>  
@@ -131,7 +131,7 @@
    
             <div class="list">
                 <label class="item item-input">
-                  <input type="text" placeholder="Nome do produto. Ex Besteira"  ng-model="categoria.descricao" ng-minlength="3"  required>
+                  <input type="text" placeholder="Nome do produto. Ex Besteira"  ng-model="categoria.nome" ng-minlength="3"  required>
                 </label>
               </div>
             
