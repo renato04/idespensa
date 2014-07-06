@@ -74,7 +74,7 @@ angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
     $scope.categoria = {}; 
     $scope.predicate = "nome";
 
-    var OBJECT_STORE_NAME = 'categoria';  
+    var OBJECT_STORE_NAME = constants.CategoriaStore;  
 
     var myObjectStore = $indexedDB.objectStore(OBJECT_STORE_NAME);
 
