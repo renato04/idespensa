@@ -137,30 +137,39 @@ angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
     });    
 })
 .controller('CadastroCategoriaController',function($scope, $indexedDB, $ionicNavBarDelegate, $ionicPopup){
+  
+  $scope.safeApply = function(fn) {
+    var phase = this.$root.$$phase;
+    if(phase == '$apply' || phase == '$digest') {
+      if(fn && (typeof(fn) === 'function')) {
+        fn();
+      }
+    } else {
+      this.$apply(fn);
+    }
+  };
 
     var OBJECT_STORE_NAME = constants.CategoriaStore;
     $scope.categoria = {};
 
-   
+  $scope.save = function(categoria){
 
-    $scope.save = function(categoria){
+      var myObjectStore = $indexedDB.objectStore(OBJECT_STORE_NAME);
 
-        var myObjectStore = $indexedDB.objectStore(OBJECT_STORE_NAME);
+      myObjectStore.insert({"id": Guid.raw(), "nome": categoria.nome}).then(
+                            function(){
 
-        myObjectStore.insert({"id": Guid.raw(), "nome": categoria.nome}).then(
-                              function(){
-
-                                 $ionicPopup.alert({
-                                   title: 'iDespensa',
-                                   template: 'Categoria cadastrada com sucesso.'
-                                 }).then( function(){
-                                      $scope.safeApply(function(){
-                                          $ionicNavBarDelegate.back();
-                                      });
-                                 });    
+                               $ionicPopup.alert({
+                                 title: 'iDespensa',
+                                 template: 'Categoria cadastrada com sucesso.'
+                               }).then( function(){
+                                    $scope.safeApply(function(){
+                                        $ionicNavBarDelegate.back();
+                                    });
+                               });    
 
 
-                        });
+                      });
 
     };       
 });
