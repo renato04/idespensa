@@ -4,22 +4,8 @@ angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
    $scope.items = [];
     $scope.isEdit = false;
 
+    var OBJECT_STORE_NAME = constants.CategoriaStore;  
 
-    // $scope.objects = [];
-
-    // var OBJECT_STORE_NAME = 'people';  
-
-    // /**
-    //  * @type {ObjectStore}
-    //  */
-    // var myObjectStore = $indexedDB.objectStore(OBJECT_STORE_NAME);
-
-    // myObjectStore.insert({"ssn": Math.random(),"name": "John Doe", "age": 57}).then(function(e){ });
-
-    // myObjectStore.getAll().then(function(results) {  
-    //   // Update scope
-    //   $scope.objects = results;
-    // });
 
   $scope.toggleLeft = function() {
     $ionicSideMenuDelegate.toggleLeft();
@@ -30,34 +16,19 @@ angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
 })
 .controller('ProdutoController',function($scope, $ionicPopup, $timeout, $ionicModal, $window){
 
-    $scope.save = function(novoProduto){
+  var OBJECT_STORE_NAME = constants.ProdutoStore; 
 
-        var d = new Date();
-        
-        var key = null;
-        
-        if(novoProduto.id)
-            key = novoProduto.id;
-        else
-            key = Guid.raw(); 
-        
-        alert(key);
-        
-       var produto = {id: key, descricao: novoProduto.descricao, quantidade: novoProduto.quantidade };
-        
-        $window.localStorage.setItem(key, JSON.stringify(produto));
-          
-        $scope.loadItems();
-
-        novoProduto = {};
-        $scope.formProduto = {};
-
-
-        $scope.closeModal();
-
-    };       
+     
 })
-.controller('CategoriaController',function($scope, $indexedDB, $ionicNavBarDelegate){
+.controller('ProdutoCadastroController',function($scope, $ionicPopup, $timeout, $ionicModal, $window){
+
+  var OBJECT_STORE_NAME = constants.ProdutoStore; 
+  $scope.save = function(novoProduto){
+
+
+  };
+})
+.controller('CategoriaController',function($scope, $indexedDB, $ionicNavBarDelegate, $ionicPopup){
 
     $scope.safeApply = function(fn) {
       var phase = this.$root.$$phase;
@@ -78,35 +49,39 @@ angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
 
     var myObjectStore = $indexedDB.objectStore(OBJECT_STORE_NAME);
 
-    //myObjectStore.insert({"id": Guid.raw(), "nome": "Teste 1"});
-
     myObjectStore.getAll().then(function(results) {  
       // Update scope
       $scope.safeApply(function(){
 
+          if (results.length == 0) {
+             var alertPopup = $ionicPopup.alert({
+               title: 'iDespensa',
+               template: 'Nâo há categoria cadastradas.'
+             });
+          }
+
           //$scope.items = results;
           $scope.items = _.groupBy(results, function(item) {return item.nome[0]; });    
-          //alert(JSON.stringify($scope.items));  
 
       });
-    });
+    });    
+})
+.controller('CadastroCategoriaController',function($scope, $indexedDB, $ionicNavBarDelegate, $ionicPopup){
 
+    var OBJECT_STORE_NAME = constants.CategoriaStore;
+    $scope.categoria = {};
+
+   
 
     $scope.save = function(categoria){
 
         var myObjectStore = $indexedDB.objectStore(OBJECT_STORE_NAME);
 
-        myObjectStore.insert({"id": Guid.raw(), "nome": categoria.nome});
-
-        myObjectStore.getAll().then(function(results) {  
-          // Update scope
-          $scope.safeApply(function(){
-
-            $scope.items = results;
-            $ionicNavBarDelegate.back();
-
-          });
-        });
+        myObjectStore.insert({"id": Guid.raw(), "nome": categoria.nome}).then(
+              function(){
+                  $ionicNavBarDelegate.back();
+              }  
+          );
 
     };       
 });

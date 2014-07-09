@@ -21,6 +21,15 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
+    .state('produto-cadastro', {
+      url: "/produto-cadastro",
+      views: {
+        'main-view': {
+          templateUrl: "produto-cadastro.html",
+          controller: 'ProdutoCadastroController'
+        }
+      }
+    })    
     .state('categoria', {
       url: "/categoria",
       views: {
@@ -35,7 +44,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
       views: {
         'main-view': {
           templateUrl: "categoria-cadastro.html",
-          controller: 'CategoriaController'
+          controller: 'CadastroCategoriaController'
         }
       }
     });

@@ -47,6 +47,11 @@
   <ion-side-menu side="left">
       <div class="list">
 
+        <a menu-close href="#" class="item item-icon-left">
+          <i class="icon ion-home"></i>
+          Home
+        </a>
+
         <a menu-close href="#/produto" class="item item-icon-left">
           <i class="icon ion-home"></i>
           Produtos
@@ -82,10 +87,31 @@
   </script>
 
 
-    
 <script id="produto.html" type="text/ng-template">
 
-   <ion-view title="Produto">
+   <ion-view title="Produtos">
+      <ion-content class="padding">
+          <div class="list">
+            <div class="item item-divider" ng-repeat="(k,v)  in items | orderBy:k[0]">
+              {{k | uppercase}}
+            <a class="item" href="#" ng-repeat="item  in v">
+              {{item.nome}}
+            </a>                 
+            </div>        
+           
+          </div>
+      </ion-content>
+      <div class="bar bar-footer bar-positive">
+        <a class="button button-calm" href="#/produto-cadastro">Adicionar</a>
+      </div>      
+    </ion-view>
+ 
+  </div>
+</script>   
+    
+<script id="produto-cadastro.html" type="text/ng-template">
+
+   <ion-view title="Adicionar">
       <ion-content class="padding">
           <form name="formProduto">
           <div class="list">
@@ -104,7 +130,6 @@
       </ion-content>
     </ion-view>
  
-  </div>
 </script>    
 
 <script id="categoria.html" type="text/ng-template">
@@ -112,8 +137,8 @@
    <ion-view title="Categorias">
       <ion-content class="padding">
           <div class="list">
-            <div class="item item-divider" ng-repeat="(k,v)  in items">
-              {{k}}
+            <div class="item item-divider" ng-repeat="(k,v)  in items | orderBy:k[0]">
+              {{k | uppercase}}
             <a class="item" href="#" ng-repeat="item  in v">
               {{item.nome}}
             </a>                 
@@ -126,7 +151,6 @@
       </div>      
     </ion-view>
  
-  </div>
 </script>   
 
 <script id="categoria-cadastro.html" type="text/ng-template">
@@ -148,7 +172,6 @@
       </form>
     </ion-view>
  
-  </div>
 </script> 
 </body>
 </html>
