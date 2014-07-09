@@ -96,7 +96,7 @@ angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
                         });
   };
 })
-.controller('CategoriaController',function($scope, $indexedDB, $ionicNavBarDelegate, $ionicPopup){
+.controller('CategoriaController',function($scope, $indexedDB, $ionicNavBarDelegate, $ionicPopup, $window){
 
     $scope.safeApply = function(fn) {
       var phase = this.$root.$$phase;
@@ -109,6 +109,12 @@ angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
       }
     };
     
+    $scope.edit = function() {
+      var urlSplited = $window.location.href.split("#");
+      $window.location.href = urlSplited[0] + "#/categoria-cadastro";
+    };
+
+
     $scope.items = [];
     $scope.categoria = {}; 
     $scope.predicate = "nome";
@@ -122,13 +128,21 @@ angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
       $scope.safeApply(function(){
 
           //$scope.items = results;
-          $scope.items = _.groupBy(results, function(item) {return item.nome[0]; });    
-
+          $scope.items = results;
       });
     });    
 })
-.controller('CadastroCategoriaController',function($scope, $indexedDB, $ionicNavBarDelegate, $ionicPopup){
+.controller('CadastroCategoriaController',function($scope, $indexedDB, $ionicNavBarDelegate, $ionicPopup, $location){
   
+  var OBJECT_STORE_NAME = constants.CategoriaStore;
+  $scope.categoria = {};
+
+  var query = $location.search();
+
+  if (query) {
+    CarregaCategoria(query.id);
+  }
+
   $scope.safeApply = function(fn) {
     var phase = this.$root.$$phase;
     if(phase == '$apply' || phase == '$digest') {
@@ -140,27 +154,52 @@ angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
     }
   };
 
-    var OBJECT_STORE_NAME = constants.CategoriaStore;
-    $scope.categoria = {};
+  function CarregaCategoria(id){
+    var myObjectStore = $indexedDB.objectStore(OBJECT_STORE_NAME);
+
+    myObjectStore.find(id).then(function(results){
+
+      $scope.safeApply(function(){
+        $scope.categoria = results;
+      });      
+    });
+  }
 
   $scope.save = function(categoria){
 
-      var myObjectStore = $indexedDB.objectStore(OBJECT_STORE_NAME);
+    var myObjectStore = $indexedDB.objectStore(OBJECT_STORE_NAME);
 
+    if (categoria.id) {
+      myObjectStore.upsert(categoria).then(
+                          function(){
+
+                             $ionicPopup.alert({
+                               title: 'iDespensa',
+                               template: 'Categoria atualizada com sucesso.'
+                             }).then( function(){
+                                  $scope.safeApply(function(){
+                                      $ionicNavBarDelegate.back();
+                                  });
+                             });    
+
+
+                    });
+    }
+    else{
       myObjectStore.insert({"id": Guid.raw(), "nome": categoria.nome}).then(
-                            function(){
+                          function(){
 
-                               $ionicPopup.alert({
-                                 title: 'iDespensa',
-                                 template: 'Categoria cadastrada com sucesso.'
-                               }).then( function(){
-                                    $scope.safeApply(function(){
-                                        $ionicNavBarDelegate.back();
-                                    });
-                               });    
+                             $ionicPopup.alert({
+                               title: 'iDespensa',
+                               template: 'Categoria cadastrada com sucesso.'
+                             }).then( function(){
+                                  $scope.safeApply(function(){
+                                      $ionicNavBarDelegate.back();
+                                  });
+                             });    
 
 
-                      });
-
-    };       
+                    });
+    }
+  };
 });

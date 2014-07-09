@@ -91,17 +91,17 @@
 
    <ion-view title="Produtos">
       <ion-content class="padding">
-<div class="list">
+        <div class="list">
 
-  <a class="item" href="#" ng-repeat="item in items">
-    {{item.nome}}
-    <span class="item-note">
-      {{item.quantidade}}
-    </span>
-  </a>
+          <a class="item" href="#" ng-repeat="item in items">
+            {{item.nome}}
+            <span class="item-note">
+              {{item.quantidade}}
+            </span>
+          </a>
 
 
-</div>    
+        </div>    
            
       </ion-content>
       <div class="bar bar-footer bar-positive">
@@ -158,15 +158,11 @@
 
    <ion-view title="Categorias">
       <ion-content class="padding">
-          <div class="list">
-            <div class="item item-divider" ng-repeat="(k,v)  in items | orderBy:k[0]">
-              {{k | uppercase}}
-            <a class="item" href="#" ng-repeat="item  in v">
-              {{item.nome}}
-            </a>                 
-            </div>        
-           
-          </div>
+        <div class="list">
+          <a class="item" href="#/categoria-cadastro?id={{item.id}}" ng-repeat="item in items" >
+            {{item.nome}}
+          </a>
+        </div>    
       </ion-content>
       <div class="bar bar-footer bar-positive">
         <a class="button button-calm" href="#/categoria-cadastro">Adicionar</a>
