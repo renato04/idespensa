@@ -10,9 +10,6 @@ angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
   $scope.toggleLeft = function() {
     $ionicSideMenuDelegate.toggleLeft();
   };    
-    
-       
-
 })
 .controller('ProdutoController',function($scope, $ionicPopup, $timeout, $ionicModal, $indexedDB, $window){
 
@@ -37,15 +34,9 @@ angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
   myObjectStore.getAll().then(function(results) {  
     // Update scope
     $scope.safeApply(function(){
-
-       alert(JSON.stringify(results));
-       alert(JSON.stringify(results[0]));
-        //$scope.items = results;
         $scope.items = results;    
-
     });
   }); 
-   
 })
 .controller('ProdutoCadastroController',function($scope, $indexedDB, $ionicNavBarDelegate, $ionicPopup){
 
