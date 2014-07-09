@@ -112,22 +112,36 @@
 <script id="produto-cadastro.html" type="text/ng-template">
 
    <ion-view title="Adicionar">
-      <ion-content class="padding">
-          <form name="formProduto">
-          <div class="list">
-              <label class="item item-input">
-                <input type="text" placeholder="Nome do produto. Ex Arroz 5kg"  ng-model="novoProduto.descricao" ng-minlength="3"  required>
-              </label>
-              <label class="item item-input">
-                <input type="number" min="0" placeholder="quantidade" ng-model="novoProduto.quantidade" required>
-              </label>
+      <form name="formProduto">
+        <ion-content class="padding">
+            <div class="list">
+                <label class="item item-input">
+                  <input type="text" placeholder="Nome do produto. Ex Arroz 5kg"  ng-model="produto.descricao" ng-minlength="3"  required>
+                </label>
+                <label class="item item-input">
+                  <input type="number" min="0" placeholder="quantidade" ng-model="produto.quantidade" required>
+                </label>
+                <label class="item item-input item-select">
+                  <div class="input-label">
+                    categoria
+                  </div>
+                  <select  ng-model="produto.categoria">
+                    <option>Blue</option>
+                    <option selected>Green</option>
+                    <option>Red</option>
+                  </select>
+                </label>  
+                <label class="item item-input">
+                  <input type="date" ng-model="produto.data" required>
+                </label>                                 
             </div>
-            <div class="button-bar">
-              <button class="button button-calm" ng-click="closeModal()">voltar</button>
-              <button class="button button-balanced" ng-click="save(novoProduto)" ng-disabled="formProduto.$invalid">salvar</button>
-            </div>
-          </form>
-      </ion-content>
+
+        </ion-content>
+        <div class="bar bar-footer bar-positive">
+            <button class="button button-balanced" ng-click="save(produto)" ng-disabled="formProduto.$invalid">salvar</button>
+        </div> 
+
+      </form>
     </ion-view>
  
 </script>    
