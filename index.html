@@ -91,15 +91,18 @@
 
    <ion-view title="Produtos">
       <ion-content class="padding">
-          <div class="list">
-            <div class="item item-divider" ng-repeat="(k,v)  in items | orderBy:k[0]">
-              {{k | uppercase}}
-            <a class="item" href="#" ng-repeat="item  in v">
-              {{item.nome}}
-            </a>                 
-            </div>        
+<div class="list">
+
+  <a class="item" href="#" ng-repeat="item in items">
+    {{item.nome}}
+    <span class="item-note">
+      {{item.quantidade}}
+    </span>
+  </a>
+
+
+</div>    
            
-          </div>
       </ion-content>
       <div class="bar bar-footer bar-positive">
         <a class="button button-calm" href="#/produto-cadastro">Adicionar</a>
@@ -116,23 +119,22 @@
         <ion-content class="padding">
             <div class="list">
                 <label class="item item-input">
-                  <input type="text" placeholder="Nome do produto. Ex Arroz 5kg"  ng-model="produto.descricao" ng-minlength="3"  required>
+                  <input type="text" placeholder="Nome do produto. Ex Arroz 5kg"  ng-model="produto.nome" ng-minlength="3"  required>
                 </label>
                 <label class="item item-input">
                   <input type="number" min="0" placeholder="quantidade" ng-model="produto.quantidade" required>
                 </label>
+                <label class="item item-input">
+                  <input type="number" min="0" placeholder="quantidade p/ entrar na lista" ng-model="produto.quantidade_lista">
+                </label>                
                 <label class="item item-input item-select">
                   <div class="input-label">
                     categoria
                   </div>
-                  <select  ng-model="produto.categoria">
-                    <option>Blue</option>
-                    <option selected>Green</option>
-                    <option>Red</option>
-                  </select>
+                  <select ng-model="produto.categoria" ng-options="categoria.id as categoria.nome for categoria in categorias"></select>
                 </label>  
                 <label class="item item-input">
-                  <input type="date" ng-model="produto.data" required>
+                  <input type="date" ng-model="produto.data_validade" required>
                 </label>                                 
             </div>
 
