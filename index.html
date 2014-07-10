@@ -14,6 +14,7 @@
   <script src="js/guid.js"></script>
   <script src="js/underscore.js"></script>
   <script src="js/indexeddb.js"></script>
+  <script src="js/moment.js"></script>
   <script src="js/config.js"></script>
   <script src="js/controllers.js"></script>
   <script src="js/app.js"></script>
@@ -81,9 +82,8 @@
             Produtos
           </div>
           <div class="item item-body">
-          <ion-scroll>
+            <ion-scroll>
               <div class="list" style="height: 250px;">
-
                 <div class="item" ng-repeat="produto in produtos | filter:{nome: filtroProduto}">
                   <p> {{produto.nome}} Quantidade: {{produto.quantidade}} </p>
                   <div class="button-bar">
@@ -91,56 +91,34 @@
                     <button class="button button-small button-positive" ng-click="remove(produto)">retira</button>
                   </div>                  
                 </div>
-            
               </div>
             </ion-scroll>
+            <div class="item item-divider">
+                <label class="item item-input">
+                  <i class="icon ion-search placeholder-icon"></i>
+                  <input type="text" placeholder="buscar" ng-model="filtroProduto">
+                </label>
+            </div>          
           </div>
-          <div class="item item-divider">
-              <label class="item item-input">
-                <i class="icon ion-search placeholder-icon"></i>
-                <input type="text" placeholder="buscar" ng-model="filtroProduto">
-              </label>
-          </div>          
-        </div>
         <div class="card">
           <div class="item item-divider">
             Lista de Compras
           </div>
           <div class="item item-body">
-          <ion-scroll>
-            <div class="list" style="height: 250px;">
-                <a class="item item-icon-left" href="#">
-                  <i class="icon ion-email"></i>
-                  Check mail
-                </a>
-
-                <a class="item item-icon-left item-icon-right" href="#">
-                  <i class="icon ion-chatbubble-working"></i>
-                  Call Ma
-                  <i class="icon ion-ios7-telephone-outline"></i>
-                </a>
-
-                <a class="item item-icon-left" href="#">
-                  <i class="icon ion-mic-a"></i>
-                  Record album
-                  <span class="item-note">
-                    Grammy
-                  </span>
-                </a>
-
-                <a class="item item-icon-left" href="#">
-                  <i class="icon ion-person-stalker"></i>
-                  Friends
-                  <span class="badge badge-assertive">0</span>
-                </a>
-
-                <a class="item item-icon-left" href="#">
-                  <i class="icon ion-person-stalker"></i>
-                  Friends
-                  <span class="badge badge-assertive">0</span>
-                </a>             
-            </div>    
-          </ion-scroll>                  
+            <ion-scroll>
+              <div class="list" style="height: 250px;">
+                <div class="item" ng-show="ListaVazia()">
+                    <p> Não há item na sua lista de compras</p>
+                </div>
+                <div class="item" ng-repeat="produto in produtos | filter:entraNaLista">
+                  <p> {{produto.nome}} Quantidade: {{produto.quantidade}} </p>
+                  <div class="button-bar">
+                    <button class="button button-small button-positive" ng-click="add(produto)">adiciona</button>
+                    <button class="button button-small button-positive" ng-click="remove(produto)">retira</button>
+                  </div>                  
+                </div>
+              </div>
+            </ion-scroll>
           </div>
         </div> 
 
@@ -149,45 +127,20 @@
             Perto do Vencimento
           </div>
           <div class="item item-body">
-          <ion-scroll>
-            <div class="list" style="height: 250px;">
-                <a class="item item-icon-left" href="#">
-                  <i class="icon ion-email"></i>
-                  Check mail
-                </a>
-
-                <a class="item item-icon-left item-icon-right" href="#">
-                  <i class="icon ion-chatbubble-working"></i>
-                  Call Ma
-                  <i class="icon ion-ios7-telephone-outline"></i>
-                </a>
-
-                <a class="item item-icon-left" href="#">
-                  <i class="icon ion-mic-a"></i>
-                  Record album
-                  <span class="item-note">
-                    Grammy
-                  </span>
-                </a>
-
-                <a class="item item-icon-left" href="#">
-                  <i class="icon ion-person-stalker"></i>
-                  Friends
-                  <span class="badge badge-assertive">0</span>
-                </a>
-
-                <a class="item item-icon-left" href="#">
-                  <i class="icon ion-person-stalker"></i>
-                  Friends
-                  <span class="badge badge-assertive">0</span>
-                </a>             
-            </div>    
-          </ion-scroll>    
+            <ion-scroll>
+              <div class="list" style="height: 250px;">
+                <div class="item" ng-show="SemItemsVencendo()">
+                    <p> Não há produtos próximos ao vencimento</p>
+                </div>
+                <div class="item" ng-repeat="produto in produtos | filter:estaVencendo">
+                  <p> {{produto.nome}}</p>
+                </div>
+              </div>
+            </ion-scroll>
           </div>
         </div>  
       </ion-content>
      </ion-view>
-
   </script>
 
 

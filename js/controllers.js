@@ -38,17 +38,49 @@ angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
       });
     }); 
 
-  };  
-
-
+  };
 
   $scope.toggleLeft = function() {
     $ionicSideMenuDelegate.toggleLeft();
   };  
 
+  $scope.entraNaLista = function (produto) {
+        return produto.lista_automatico &&
+               produto.quantidade <= produto.quantidade_lista;
+  };  
+
+  $scope.estaVencendo  = function (produto) {
+
+        var diferenca = moment(produto.data_validade, "YYYY-MM-DD").diff(moment(), 'days');
+
+        return diferenca <= 7;
+  };   
+
+  $scope.SemItemsVencendo = function() {
+
+    var produtosNaLista = _.filter($scope.produtos, function(produto){
+        var diferenca = moment(produto.data_validade, "YYYY-MM-DD").diff(moment(), 'days');
+
+        return diferenca <= 7;
+    });
+
+    return produtosNaLista.length == 0;
+  };    
+
+  $scope.ListaVazia = function() {
+
+    var produtosNaLista = _.filter($scope.produtos, function(produto){
+        return produto.lista_automatico &&
+               produto.quantidade <= produto.quantidade_lista;
+    });
+
+    return produtosNaLista.length == 0;
+  };  
+
   var PRODUTO_STORE_NAME = constants.ProdutoStore;
   $scope.produtos = [];
-  $scope.getAllProdutos();  
+
+  $scope.getAllProdutos();
 
 
 })
