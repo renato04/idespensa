@@ -84,7 +84,7 @@
           <ion-scroll>
               <div class="list" style="height: 250px;">
 
-                <div class="item" ng-repeat="produto in produtos">
+                <div class="item" ng-repeat="produto in produtos | filter:{nome: filtroProduto}">
                   <p> {{produto.nome}} Quantidade: {{produto.quantidade}} </p>
                   <div class="button-bar">
                     <button class="button button-small button-positive" ng-click="add(produto)">adiciona</button>
@@ -95,6 +95,12 @@
               </div>
             </ion-scroll>
           </div>
+          <div class="item item-divider">
+              <label class="item item-input">
+                <i class="icon ion-search placeholder-icon"></i>
+                <input type="text" placeholder="buscar" ng-model="filtroProduto">
+              </label>
+          </div>          
         </div>
         <div class="card">
           <div class="item item-divider">
