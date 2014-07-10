@@ -124,6 +124,7 @@ angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
     $scope.modal.show();
   };
   $scope.closeModal = function() {
+    $scope.modal.searchText = "";
     $scope.modal.hide();
   };
   //Cleanup the modal when we're done with it!
@@ -278,6 +279,7 @@ angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
       $scope.modal.show();
     };
     $scope.closeModal = function() {
+      $scope.modal.searchText = "";
       $scope.modal.hide();
     };
     //Cleanup the modal when we're done with it!

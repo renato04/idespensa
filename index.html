@@ -58,12 +58,12 @@
           </a>
 
           <a menu-close href="#/produto" class="item item-icon-left">
-            <i class="icon ion-home"></i>
+            <i class="icon ion-grid"></i>
             Produtos
           </a>
 
           <a menu-close href="#/categoria" class="item item-icon-left">
-            <i class="icon ion-home"></i>
+            <i class="icon ion-code-working"></i>
             Categorias
           </a>        
 
@@ -79,6 +79,7 @@
       <ion-content>
         <div class="card">
           <div class="item item-divider">
+            <i class="icon ion-grid"></i>
             Produtos
           </div>
           <div class="item item-body">
@@ -100,8 +101,10 @@
                 </label>
             </div>          
           </div>
+        </div>          
         <div class="card">
           <div class="item item-divider">
+          <i class="icon ion-ios7-cart"></i>
             Lista de Compras
           </div>
           <div class="item item-body">
@@ -121,9 +124,9 @@
             </ion-scroll>
           </div>
         </div> 
-
         <div class="card">
           <div class="item item-divider">
+          <i class="icon ion-ios7-calendar"></i>
             Perto do Vencimento
           </div>
           <div class="item item-body">
@@ -159,7 +162,7 @@
       </ion-content>
       <div class="tabs tabs-icon-top">
         <a class="tab-item" href="#/produto-cadastro">
-          <i class="icon ion-home"></i>
+          <i class="icon ion-plus"></i>
           adicionar
         </a>
         <a class="tab-item" ng-click="openModal()">
@@ -232,9 +235,12 @@
             </div>
           </div>
         </ion-content>
-        <div class="bar bar-footer bar-positive">
-            <button class="button button-balanced" ng-click="save(produto)" ng-disabled="formProduto.$invalid">salvar</button>
-        </div> 
+        <div class="tabs tabs-icon-top">
+          <a class="tab-item"  ng-click="save(produto)" ng-disabled="formProduto.$invalid">
+            <i class="icon ion-social-buffer"></i>
+            salvar
+          </a>
+        </div>  
 
       </form>
     </ion-view>
@@ -253,7 +259,7 @@
       </ion-content>
       <div class="tabs tabs-icon-top">
         <a class="tab-item" href="#/categoria-cadastro">
-          <i class="icon ion-home"></i>
+          <i class="icon ion-plus"></i>
           adicionar
         </a>
         <a class="tab-item" ng-click="openModal()">
@@ -284,8 +290,11 @@
             </div>
           </div>   
         </ion-content>
-        <div class="bar bar-footer bar-positive">
-            <button class="button button-balanced" ng-click="save(categoria)" ng-disabled="form.$invalid">salvar</button>
+        <div class="tabs tabs-icon-top">
+          <a class="tab-item"  ng-click="save(categoria)" ng-disabled="form.$invalid">
+            <i class="icon ion-social-buffer"></i>
+            salvar
+          </a>
         </div>         
       </form>
     </ion-view>
