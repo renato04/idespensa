@@ -78,7 +78,8 @@ angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
                           "quantidade": produto.quantidade,
                           "categoria": produto.categoria,
                           "data_validade": produto.data_validade,
-                          "quantidade_lista": produto.quantidade_lista}
+                          "quantidade_lista": produto.quantidade_lista,
+                          "lista_automatico": produto.lista_automatico}
                         )
                         .then(
                               function(){

@@ -123,13 +123,16 @@
             </div>
             <div class="item item-body">
               <div class="list">
-                <label class="item item-input">
+                <label class="item item-input item-stacked-label">
+                  <span class="input-label">Nome</span>
                   <input type="text" placeholder="Nome do produto. Ex Arroz 5kg"  ng-model="produto.nome" ng-minlength="3"  required>
                 </label>
-                <label class="item item-input">
+                <label class="item item-input item-stacked-label">
+                  <span class="input-label">Quantidade</span>
                   <input type="number" min="0" placeholder="quantidade" ng-model="produto.quantidade" required>
                 </label>
-                <label class="item item-input">
+                <label class="item item-input item-stacked-label">
+                  <span class="input-label">Rever</span>
                   <input type="number" min="0" placeholder="quantidade p/ entrar na lista" ng-model="produto.quantidade_lista">
                 </label>                
                 <label class="item item-input item-select">
@@ -138,9 +141,21 @@
                   </div>
                   <select ng-model="produto.categoria" ng-options="categoria.id as categoria.nome for categoria in categorias"></select>
                 </label>  
-                <label class="item item-input">
+                <label class="item item-input item-stacked-label">
+                  <span class="input-label">Data de validade</span>
                   <input type="date" ng-model="produto.data_validade" required>
-                </label>                                 
+                </label>
+                <label class="item item-input">
+                  <div class="input-label">
+                    Lista de Compras
+                  </div>                
+                  <label class="toggle">
+                     <input type="checkbox" ng-model="produto.lista_automatico">
+                     <div class="track">
+                       <div class="handle"></div>
+                     </div>
+                  </label>
+                </label>
               </div>
             </div>
           </div>
@@ -182,9 +197,10 @@
             </div>
             <div class="item item-body">
               <div class="list">
-                  <label class="item item-input">
+                <label class="item item-input item-stacked-label">
+                  <span class="input-label">Nome</span>
                     <input type="text" placeholder="Nome do produto. Ex Besteira"  ng-model="categoria.nome" ng-minlength="3"  required>
-                  </label>
+                </label>
               </div>
             </div>
           </div>   
