@@ -38,24 +38,20 @@ angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
     });
   }); 
 })
-.controller('ProdutoCadastroController',function($scope, $indexedDB, $ionicNavBarDelegate, $ionicPopup){
-
-  $scope.safeApply = function(fn) {
-    var phase = this.$root.$$phase;
-    if(phase == '$apply' || phase == '$digest') {
-      if(fn && (typeof(fn) === 'function')) {
-        fn();
-      }
-    } else {
-      this.$apply(fn);
-    }
-  };
+.controller('ProdutoCadastroController',function($scope, $indexedDB, $ionicNavBarDelegate, $ionicPopup, $location){
 
   var PRODUTO_STORE_NAME = constants.ProdutoStore; 
   var CATEGORIA_STORE_NAME = constants.CategoriaStore; 
   
   $scope.produto = {};
   $scope.categorias = [];
+  var query = $location.search();
+
+  if (query) {
+    CarregaProduto(query.id);
+  }  
+
+
 
   var categoriaObjectStore = $indexedDB.objectStore(CATEGORIA_STORE_NAME);
 
@@ -69,32 +65,74 @@ angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
     });
   });   
 
+  function CarregaProduto(id){
+    var myObjectStore = $indexedDB.objectStore(PRODUTO_STORE_NAME);
+
+    myObjectStore.find(id).then(function(results){
+
+      $scope.safeApply(function(){
+        $scope.produto = results;
+      });      
+    });
+  }
+  
+  $scope.safeApply = function(fn) {
+    var phase = this.$root.$$phase;
+    if(phase == '$apply' || phase == '$digest') {
+      if(fn && (typeof(fn) === 'function')) {
+        fn();
+      }
+    } else {
+      this.$apply(fn);
+    }
+  };
+
   $scope.save = function(produto){
     
     var myObjectStore = $indexedDB.objectStore(PRODUTO_STORE_NAME);
 
-    myObjectStore.insert({"id": Guid.raw(),
-                          "nome": produto.nome,
-                          "quantidade": produto.quantidade,
-                          "categoria": produto.categoria,
-                          "data_validade": produto.data_validade,
-                          "quantidade_lista": produto.quantidade_lista,
-                          "lista_automatico": produto.lista_automatico}
-                        )
-                        .then(
-                              function(){
+    if (produto.id) {
+      myObjectStore.upsert(produto).then(
+                          function(){
 
-                                 $ionicPopup.alert({
-                                   title: 'iDespensa',
-                                   template: 'Produto cadastrado com sucesso.'
-                                 }).then( function(){
-                                      $scope.safeApply(function(){
-                                        $ionicNavBarDelegate.back();
-                                      });
-                                 });    
+                             $ionicPopup.alert({
+                               title: 'iDespensa',
+                               template: 'Produto atualizado com sucesso.'
+                             }).then( function(){
+                                  $scope.safeApply(function(){
+                                      $ionicNavBarDelegate.back();
+                                  });
+                             });    
 
 
-                        });
+                    });
+    }
+    else{
+      myObjectStore.insert({"id": Guid.raw(),
+                            "nome": produto.nome,
+                            "quantidade": produto.quantidade,
+                            "categoria": produto.categoria,
+                            "data_validade": produto.data_validade,
+                            "quantidade_lista": produto.quantidade_lista,
+                            "lista_automatico": produto.lista_automatico}
+                          )
+                          .then(
+                                function(){
+
+                                   $ionicPopup.alert({
+                                     title: 'iDespensa',
+                                     template: 'Produto cadastrado com sucesso.'
+                                   }).then( function(){
+                                        $scope.safeApply(function(){
+                                          $ionicNavBarDelegate.back();
+                                        });
+                                   });    
+
+
+                          });      
+    }
+
+
   };
 })
 .controller('CategoriaController',function($scope, $indexedDB, $ionicNavBarDelegate, $ionicPopup, $window){

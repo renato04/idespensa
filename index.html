@@ -93,7 +93,7 @@
       <ion-content class="padding">
         <div class="list">
 
-          <a class="item" href="#" ng-repeat="item in items">
+          <a class="item" href="#/produto-cadastro?id={{item.id}}" ng-repeat="item in items">
             {{item.nome}}
             <span class="item-note">
               {{item.quantidade}}
@@ -130,11 +130,7 @@
                 <label class="item item-input item-stacked-label">
                   <span class="input-label">Quantidade</span>
                   <input type="number" min="0" placeholder="quantidade" ng-model="produto.quantidade" required>
-                </label>
-                <label class="item item-input item-stacked-label">
-                  <span class="input-label">Rever</span>
-                  <input type="number" min="0" placeholder="quantidade p/ entrar na lista" ng-model="produto.quantidade_lista">
-                </label>                
+                </label>            
                 <label class="item item-input item-select">
                   <div class="input-label">
                     categoria
@@ -156,6 +152,10 @@
                      </div>
                   </label>
                 </label>
+                <label class="item item-input item-stacked-label" ng-show="produto.lista_automatico">
+                  <span class="input-label">Quantidade</span>
+                  <input type="number" min="0" placeholder="quantidade p/ entrar na lista" ng-model="produto.quantidade_lista">
+                </label>                  
               </div>
             </div>
           </div>
