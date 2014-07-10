@@ -11,7 +11,7 @@ angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
     $ionicSideMenuDelegate.toggleLeft();
   };    
 })
-.controller('ProdutoController',function($scope, $ionicPopup, $timeout, $ionicModal, $indexedDB, $window){
+.controller('ProdutoController',function($scope, $ionicPopup, $timeout, $ionicModal, $indexedDB, $window, $ionicModal){
 
   $scope.safeApply = function(fn) {
     var phase = this.$root.$$phase;
@@ -28,6 +28,7 @@ angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
   $scope.items = [];
   $scope.produto = {}; 
   $scope.predicate = "nome";
+  $scope.searchText = "a";
 
   var myObjectStore = $indexedDB.objectStore(OBJECT_STORE_NAME);
 
@@ -37,6 +38,33 @@ angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
         $scope.items = results;    
     });
   }); 
+
+  $ionicModal.fromTemplateUrl('busca.html', {
+    scope: $scope,
+    animation: 'slide-left-right'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+  $scope.openModal = function() {
+    $scope.modal.show();
+  };
+  $scope.closeModal = function() {
+    alert($scope.searchText);
+    $scope.modal.hide();
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+  });  
+
 })
 .controller('ProdutoCadastroController',function($scope, $indexedDB, $ionicNavBarDelegate, $ionicPopup, $location){
 
@@ -64,6 +92,7 @@ angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
 
     });
   });   
+
 
   function CarregaProduto(id){
     var myObjectStore = $indexedDB.objectStore(PRODUTO_STORE_NAME);

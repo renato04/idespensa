@@ -90,27 +90,42 @@
 <script id="produto.html" type="text/ng-template">
 
    <ion-view title="Produtos">
-      <ion-content class="padding">
+      <ion-content>
         <div class="list">
-
-          <a class="item" href="#/produto-cadastro?id={{item.id}}" ng-repeat="item in items">
+          <a class="item" href="#/produto-cadastro?id={{item.id}}" ng-repeat="item in items | filter:searchText">
             {{item.nome}}
             <span class="item-note">
               {{item.quantidade}}
             </span>
           </a>
-
-
         </div>    
-           
       </ion-content>
-      <div class="bar bar-footer bar-positive">
-        <a class="button button-calm" href="#/produto-cadastro">Adicionar</a>
-      </div>      
+      <div class="tabs tabs-icon-top">
+        <a class="tab-item" href="#/produto-cadastro">
+          <i class="icon ion-home"></i>
+          Adicionar
+        </a>
+        <a class="tab-item" ng-click="openModal()">
+          <i class="icon ion-search"></i>
+          Filtrar
+        </a>
+      </div>     
     </ion-view>
  
   </div>
 </script>   
+
+<script id="busca.html" type="text/ng-template">
+  <div class="bar bar-header item-input-inset">
+    <label class="item-input-wrapper">
+      <i class="icon ion-ios7-search placeholder-icon"></i>
+      <input type="search" placeholder="busca" ng-model="searchText">
+    </label>
+    <button class="button button-clear" ng-click="closeModal()">
+      cancelar
+    </button>
+  </div>
+</script>
     
 <script id="produto-cadastro.html" type="text/ng-template">
 
@@ -172,7 +187,7 @@
 <script id="categoria.html" type="text/ng-template">
 
    <ion-view title="Categorias">
-      <ion-content class="padding">
+      <ion-content>
         <div class="list">
           <a class="item" href="#/categoria-cadastro?id={{item.id}}" ng-repeat="item in items" >
             {{item.nome}}
