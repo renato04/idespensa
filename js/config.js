@@ -2,7 +2,7 @@ angular.module('ionicApp.config', ['xc.indexedDB'])
 .config(function ($indexedDBProvider) {
     $indexedDBProvider
       .connection('idespensa')
-      .upgradeDatabase('2.2', function(event, db, tx){
+      .upgradeDatabase(3, function(event, db, tx){
         var produto = db.createObjectStore('produto', {keyPath: 'id'});
         produto.createIndex('nome_idx', 'nome', {unique: false});
         produto.createIndex('quantidade_idx', 'quantidade', {unique: false});
@@ -17,7 +17,7 @@ angular.module('ionicApp.config', ['xc.indexedDB'])
         var configuracao = db.createObjectStore('configuracao', {keyPath: 'id'});
         configuracao.createIndex('quantidade_dias_validade_idx', 'quantidade_dias_validade', {unique: false});
 
-        configuracao.insert({"quantidade_dias_validade": 7 });
+        //configuracao.insert({"quantidade_dias_validade": 7 });
 
       });
   });
