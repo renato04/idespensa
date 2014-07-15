@@ -47,7 +47,16 @@ app.config(function($stateProvider, $urlRouterProvider) {
           controller: 'CadastroCategoriaController'
         }
       }
-    });
+    })
+    .state('configuracao', {
+      url: "/configuracao",
+      views: {
+        'main-view': {
+          templateUrl: "configuracao.html",
+          controller: 'ConfiguracaoController'
+        }
+      }
+    })    ;
 
    $urlRouterProvider.otherwise("/");
 

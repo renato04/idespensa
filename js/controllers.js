@@ -77,6 +77,13 @@ angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
     return produtosNaLista.length == 0;
   };  
 
+
+  $scope.ListaProdutoVazia = function() {
+
+    return  $scope.produtos.length == 0;
+
+  };    
+
   var PRODUTO_STORE_NAME = constants.ProdutoStore;
   $scope.produtos = [];
 
@@ -357,4 +364,7 @@ angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
                     });
     }
   };
+})
+.controller('ConfiguracaoController',function($scope, $ionicPopup, $timeout, $ionicModal, $indexedDB, $window, $ionicModal){
+
 });

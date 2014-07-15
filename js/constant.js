@@ -1,5 +1,6 @@
 var constants = {
    'ProdutoStore': 'produto',
    'CategoriaStore': 'categoria',
-   'DataBaseConection' : 'idespensa'
+   'DataBaseConection' : 'idespensa',
+   'ConfiguracaoStore' : 'configuracao'
 };

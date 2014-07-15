@@ -65,12 +65,44 @@
           <a menu-close href="#/categoria" class="item item-icon-left">
             <i class="icon ion-code-working"></i>
             Categorias
-          </a>        
+          </a>
+
+          <a menu-close href="#/configuracao" class="item item-icon-left">
+            <i class="icon ion-gear-b"></i>
+            Configuração
+          </a>                
 
         </div>  
     </ion-content>
   </ion-side-menu>
 </ion-side-menus>
+
+<script id="configuracao.html" type="text/ng-template">
+
+   <ion-view title="Configuração">
+    <form name="form">
+      <ion-content>
+        <div class="list">
+          <label class="item item-input item-stacked-label">
+            <span class="input-label">Dias para vencimento</span>
+            <input type="text" placeholder="Mínimo de dias para entrar na lista"  ng-model="configuracao.quantidade_dias_validade"  required>
+          </label>
+          <div class="item">
+              Apagar Dados
+          </div>           
+        </div>
+      </ion-content>
+      <div class="tabs tabs-icon-top">
+        <a class="tab-item"  ng-click="save(configuracao)" ng-disabled="form.$invalid">
+          <i class="icon ion-social-buffer"></i>
+          salvar
+        </a>
+      </div>    
+    </form>
+  </ion-view>
+ 
+  </div>
+</script>   
 
 
   <script id="home.html" type="text/ng-template">
@@ -85,6 +117,9 @@
           <div class="item item-body">
             <ion-scroll>
               <div class="list" style="height: 250px;">
+                <div class="item" ng-show="ListaProdutoVazia()">
+                    <p> Não há item na sua lista de compras</p>
+                </div>              
                 <div class="item" ng-repeat="produto in produtos | filter:{nome: filtroProduto}">
                   <p> {{produto.nome}} Quantidade: {{produto.quantidade}} </p>
                   <div class="button-bar">
