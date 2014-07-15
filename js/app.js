@@ -56,7 +56,25 @@ app.config(function($stateProvider, $urlRouterProvider) {
           controller: 'ConfiguracaoController'
         }
       }
-    })    ;
+    })
+    .state('lista', {
+      url: "/lista",
+      views: {
+        'main-view': {
+          templateUrl: "lista.html",
+          controller: 'ListaDeComprasController'
+        }
+      }
+    })
+    .state('vencimento', {
+      url: "/vencimento",
+      views: {
+        'main-view': {
+          templateUrl: "vencimento.html",
+          controller: 'VencimentoController'
+        }
+      }
+    });
 
    $urlRouterProvider.otherwise("/");
 

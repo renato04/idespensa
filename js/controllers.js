@@ -1,5 +1,5 @@
 angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
-.controller('AppCtrl',function($scope, $ionicSideMenuDelegate, $indexedDB) {
+.controller('AppCtrl',function($scope, $ionicSideMenuDelegate, $ionicModal, $indexedDB) {
 
   $scope.safeApply = function(fn) {
     var phase = this.$root.$$phase;
@@ -44,10 +44,126 @@ angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
     $ionicSideMenuDelegate.toggleLeft();
   };  
 
-  $scope.entraNaLista = function (produto) {
+
+  $scope.ListaProdutoVazia = function() {
+
+    return  $scope.produtos.length == 0;
+
+  };    
+
+  $ionicModal.fromTemplateUrl('busca.html', {
+    scope: $scope,
+    animation: 'slide-left-right'
+  }).then(function(modal) {
+
+    $scope.modal = modal;
+    $scope.modal.searchText = "";
+  });
+  $scope.openModal = function() {
+    $scope.modal.show();
+  };
+  $scope.closeModal = function() {
+    $scope.modal.searchText = "";
+    $scope.modal.hide();
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });  
+
+  var PRODUTO_STORE_NAME = constants.ProdutoStore;
+  $scope.produtos = [];
+  $scope.showSearch = global.showSearch;
+  $scope.showHome = global.showHome;
+
+  $scope.getAllProdutos();
+})
+.controller('ListaDeComprasController',function($scope, $indexedDB) {
+  $scope.safeApply = function(fn) {
+    var phase = this.$root.$$phase;
+    if(phase == '$apply' || phase == '$digest') {
+      if(fn && (typeof(fn) === 'function')) {
+        fn();
+      }
+    } else {
+      this.$apply(fn);
+    }
+  };
+
+  $scope.add = function(produto) {
+    var myObjectStore = $indexedDB.objectStore(PRODUTO_STORE_NAME);
+
+    produto.quantidade += 1;
+    myObjectStore.upsert(produto);
+  };  
+
+  $scope.remove = function(produto) {
+    var myObjectStore = $indexedDB.objectStore(PRODUTO_STORE_NAME);
+
+    produto.quantidade -= 1;
+    myObjectStore.upsert(produto);
+  };  
+
+  $scope.getAllProdutos = function() {
+
+    var myObjectStore = $indexedDB.objectStore(PRODUTO_STORE_NAME);
+    //myObjectStore.clear();
+
+    myObjectStore.getAll().then(function(results) {  
+      // Update scope
+      $scope.safeApply(function(){
+          $scope.produtos = results;    
+      });
+    }); 
+
+  };
+
+    $scope.entraNaLista = function (produto) {
         return produto.lista_automatico &&
                produto.quantidade <= produto.quantidade_lista;
   };  
+
+  $scope.ListaVazia = function() {
+
+    var produtosNaLista = _.filter($scope.produtos, function(produto){
+        return produto.lista_automatico &&
+               produto.quantidade <= produto.quantidade_lista;
+    });
+
+    return produtosNaLista.length == 0;
+  };  
+
+  var PRODUTO_STORE_NAME = constants.ProdutoStore;
+  $scope.produtos = [];
+
+  $scope.getAllProdutos();  
+
+})
+.controller('VencimentoController',function($scope, $indexedDB) {
+  $scope.safeApply = function(fn) {
+    var phase = this.$root.$$phase;
+    if(phase == '$apply' || phase == '$digest') {
+      if(fn && (typeof(fn) === 'function')) {
+        fn();
+      }
+    } else {
+      this.$apply(fn);
+    }
+  };
+
+  $scope.getAllProdutos = function() {
+
+    var myObjectStore = $indexedDB.objectStore(PRODUTO_STORE_NAME);
+    //myObjectStore.clear();
+
+    myObjectStore.getAll().then(function(results) {  
+      // Update scope
+      $scope.safeApply(function(){
+          $scope.produtos = results;    
+      });
+    }); 
+
+  };
 
   $scope.estaVencendo  = function (produto) {
 
@@ -67,28 +183,11 @@ angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
     return produtosNaLista.length == 0;
   };    
 
-  $scope.ListaVazia = function() {
-
-    var produtosNaLista = _.filter($scope.produtos, function(produto){
-        return produto.lista_automatico &&
-               produto.quantidade <= produto.quantidade_lista;
-    });
-
-    return produtosNaLista.length == 0;
-  };  
-
-
-  $scope.ListaProdutoVazia = function() {
-
-    return  $scope.produtos.length == 0;
-
-  };    
 
   var PRODUTO_STORE_NAME = constants.ProdutoStore;
   $scope.produtos = [];
 
-  $scope.getAllProdutos();
-
+  $scope.getAllProdutos();  
 
 })
 .controller('ProdutoController',function($scope, $ionicPopup, $timeout, $ionicModal, $indexedDB, $window, $ionicModal){
@@ -119,25 +218,7 @@ angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
     });
   }); 
 
-  $ionicModal.fromTemplateUrl('busca.html', {
-    scope: $scope,
-    animation: 'slide-left-right'
-  }).then(function(modal) {
 
-    $scope.modal = modal;
-    $scope.modal.searchText = "";
-  });
-  $scope.openModal = function() {
-    $scope.modal.show();
-  };
-  $scope.closeModal = function() {
-    $scope.modal.searchText = "";
-    $scope.modal.hide();
-  };
-  //Cleanup the modal when we're done with it!
-  $scope.$on('$destroy', function() {
-    $scope.modal.remove();
-  });
 
 })
 .controller('ProdutoCadastroController',function($scope, $indexedDB, $ionicNavBarDelegate, $ionicPopup, $location){
