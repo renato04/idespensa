@@ -1,0 +1,10 @@
+ {
+  "name"         : "sample-template",
+  "version"      : "0.0.0",
+  "description"  : "Sample template of an app",
+  "main"         : "server.js",
+  "author"       : "Renato",
+  "dependencies" : {
+    "express"    : "~3.4.4"
+    }
+  }
