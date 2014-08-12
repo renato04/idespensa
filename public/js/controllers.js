@@ -319,18 +319,7 @@ angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
 
   };
 })
-.controller('CategoriaController',function($scope, $indexedDB, $ionicModal){
-
-    $scope.safeApply = function(fn) {
-      var phase = this.$root.$$phase;
-      if(phase == '$apply' || phase == '$digest') {
-        if(fn && (typeof(fn) === 'function')) {
-          fn();
-        }
-      } else {
-        this.$apply(fn);
-      }
-    };
+.controller('CategoriaController',function($scope, $indexedDB){
     
     $scope.edit = function() {
       var urlSplited = $window.location.href.split("#");
@@ -354,29 +343,26 @@ angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
           $scope.items = results;
       });
     });
-
-    $ionicModal.fromTemplateUrl('busca.html', {
-      scope: $scope,
-      animation: 'slide-left-right'
-    }).then(function(modal) {
-
-      $scope.modal = modal;
-      $scope.modal.searchText = "";
-    });
-    $scope.openModal = function() {
-      $scope.modal.show();
-    };
-    $scope.closeModal = function() {
-      $scope.modal.searchText = "";
-      $scope.modal.hide();
-    };
-    //Cleanup the modal when we're done with it!
-    $scope.$on('$destroy', function() {
-      $scope.modal.remove();
-    });    
 })
-.controller('CadastroCategoriaController',function($scope, $indexedDB, $ionicNavBarDelegate, $ionicPopup, $location){
-  
+.controller('CadastroCategoriaController',function($scope, $indexedDB, $ionicNavBarDelegate, $ionicPopup, $location, $ionicPopover){
+
+   document.body.classList.add('platform-ios');
+
+   $ionicPopover.fromTemplateUrl('categoria-cadastro-opcoes.html', {
+     scope: $scope,
+   }).then(function(popover) {
+     $scope.popover = popover;
+   });
+   $scope.openPopover = function($event) {
+     $scope.popover.show($event);
+   };
+   $scope.closePopover = function() {
+     $scope.popover.hide();
+   };
+   //Cleanup the popover when we're done with it!
+   $scope.$on('$destroy', function() {
+     $scope.popover.remove();
+   });
   var OBJECT_STORE_NAME = constants.CategoriaStore;
   $scope.categoria = {};
 
@@ -409,6 +395,16 @@ angular.module('ionicApp.controllers', ['ionicApp.config', 'xc.indexedDB'])
   }
 
   $scope.save = function(categoria){
+
+    if (!categoria.nome) {
+       $ionicPopup.alert({
+         title: 'iDespensa',
+         template: 'Nome inválido.'
+       });
+
+        $scope.closePopover();
+       return;
+    }
 
     var myObjectStore = $indexedDB.objectStore(OBJECT_STORE_NAME);
 
