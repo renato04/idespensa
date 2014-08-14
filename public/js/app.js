@@ -1,81 +1,86 @@
-var app = angular.module('ionicApp', ['ionic' , 'ionicApp.controllers']);
+angular.module('ionicApp', ['ionic'])
 
-app.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider) {
 
   $stateProvider
-    .state('index', {
-      url: "/",
-      views:{
-        'main-view':{
+    .state('signin', {
+      url: "/sign-in",
+      templateUrl: "sign-in.html",
+      controller: 'SignInCtrl'
+    })
+    .state('forgotpassword', {
+      url: "/forgot-password",
+      templateUrl: "forgot-password.html"
+    })
+    .state('tabs', {
+      url: "/tab",
+      abstract: true,
+      templateUrl: "tabs.html"
+    })
+    .state('tabs.home', {
+      url: "/home",
+      views: {
+        'home-tab': {
           templateUrl: "home.html",
-          controller: "AppCtrl"
+          controller: 'HomeTabCtrl'
         }
       }
     })
-    .state('produto', {
-      url: "/produto",
+    .state('tabs.facts', {
+      url: "/facts",
       views: {
-        'main-view': {
-          templateUrl: "produto.html",
-          controller: 'ProdutoController'
+        'home-tab': {
+          templateUrl: "facts.html"
         }
       }
     })
-    .state('produto-cadastro', {
-      url: "/produto-cadastro",
+    .state('tabs.facts2', {
+      url: "/facts2",
       views: {
-        'main-view': {
-          templateUrl: "produto-cadastro.html",
-          controller: 'ProdutoCadastroController'
-        }
-      }
-    })    
-    .state('categoria', {
-      url: "/categoria",
-      views: {
-        'main-view': {
-          templateUrl: "categoria.html",
-          controller: 'CategoriaController'
+        'home-tab': {
+          templateUrl: "facts2.html"
         }
       }
     })
-    .state('categoria-cadastro', {
-      url: "/categoria-cadastro",
+    .state('tabs.about', {
+      url: "/about",
       views: {
-        'main-view': {
-          templateUrl: "categoria-cadastro.html",
-          controller: 'CadastroCategoriaController'
+        'about-tab': {
+          templateUrl: "about.html"
         }
       }
     })
-    .state('configuracao', {
-      url: "/configuracao",
+    .state('tabs.navstack', {
+      url: "/navstack",
       views: {
-        'main-view': {
-          templateUrl: "configuracao.html",
-          controller: 'ConfiguracaoController'
+        'about-tab': {
+          templateUrl: "nav-stack.html"
         }
       }
     })
-    .state('lista', {
-      url: "/lista",
+    .state('tabs.contact', {
+      url: "/contact",
       views: {
-        'main-view': {
-          templateUrl: "lista.html",
-          controller: 'ListaDeComprasController'
-        }
-      }
-    })
-    .state('vencimento', {
-      url: "/vencimento",
-      views: {
-        'main-view': {
-          templateUrl: "vencimento.html",
-          controller: 'VencimentoController'
+        'contact-tab': {
+          templateUrl: "contact.html"
         }
       }
     });
 
-   $urlRouterProvider.otherwise("/");
 
+   $urlRouterProvider.otherwise("/sign-in");
+
+})
+
+.controller('SignInCtrl', function($scope, $state) {
+  
+  $scope.signIn = function(user) {
+    console.log('Sign-In', user);
+    $state.go('tabs.home');
+  };
+  
+})
+
+.controller('HomeTabCtrl', function($scope) {
+  console.log('HomeTabCtrl');
 });

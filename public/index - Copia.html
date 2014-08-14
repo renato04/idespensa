@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html ng-app="ionicApp">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+  <title>Ionic-AngularJS-Cordova</title>
+  
+<script>
+/* Modernizr 2.6.2 (Custom Build) | MIT & BSD
+ * Build: http://modernizr.com/download/#-fontface-cssclasses-addtest-prefixed-teststyles-testprop-testallprops-hasevent-prefixes-domprefixes
+ */
+;window.Modernizr=function(a,b,c){function A(a){j.cssText=a}function B(a,b){return A(m.join(a+";")+(b||""))}function C(a,b){return typeof a===b}function D(a,b){return!!~(""+a).indexOf(b)}function E(a,b){for(var d in a){var e=a[d];if(!D(e,"-")&&j[e]!==c)return b=="pfx"?e:!0}return!1}function F(a,b,d){for(var e in a){var f=b[a[e]];if(f!==c)return d===!1?a[e]:C(f,"function")?f.bind(d||b):f}return!1}function G(a,b,c){var d=a.charAt(0).toUpperCase()+a.slice(1),e=(a+" "+o.join(d+" ")+d).split(" ");return C(b,"string")||C(b,"undefined")?E(e,b):(e=(a+" "+p.join(d+" ")+d).split(" "),F(e,b,c))}var d="2.6.2",e={},f=!0,g=b.documentElement,h="modernizr",i=b.createElement(h),j=i.style,k,l={}.toString,m=" -webkit- -moz- -o- -ms- ".split(" "),n="Webkit Moz O ms",o=n.split(" "),p=n.toLowerCase().split(" "),q={},r={},s={},t=[],u=t.slice,v,w=function(a,c,d,e){var f,i,j,k,l=b.createElement("div"),m=b.body,n=m||b.createElement("body");if(parseInt(d,10))while(d--)j=b.createElement("div"),j.id=e?e[d]:h+(d+1),l.appendChild(j);return f=["&#173;",'<style id="s',h,'">',a,"</style>"].join(""),l.id=h,(m?l:n).innerHTML+=f,n.appendChild(l),m||(n.style.background="",n.style.overflow="hidden",k=g.style.overflow,g.style.overflow="hidden",g.appendChild(n)),i=c(l,a),m?l.parentNode.removeChild(l):(n.parentNode.removeChild(n),g.style.overflow=k),!!i},x=function(){function d(d,e){e=e||b.createElement(a[d]||"div"),d="on"+d;var f=d in e;return f||(e.setAttribute||(e=b.createElement("div")),e.setAttribute&&e.removeAttribute&&(e.setAttribute(d,""),f=C(e[d],"function"),C(e[d],"undefined")||(e[d]=c),e.removeAttribute(d))),e=null,f}var a={select:"input",change:"input",submit:"form",reset:"form",error:"img",load:"img",abort:"img"};return d}(),y={}.hasOwnProperty,z;!C(y,"undefined")&&!C(y.call,"undefined")?z=function(a,b){return y.call(a,b)}:z=function(a,b){return b in a&&C(a.constructor.prototype[b],"undefined")},Function.prototype.bind||(Function.prototype.bind=function(b){var c=this;if(typeof c!="function")throw new TypeError;var d=u.call(arguments,1),e=function(){if(this instanceof e){var a=function(){};a.prototype=c.prototype;var f=new a,g=c.apply(f,d.concat(u.call(arguments)));return Object(g)===g?g:f}return c.apply(b,d.concat(u.call(arguments)))};return e}),q.fontface=function(){var a;return w('@font-face {font-family:"font";src:url("https://")}',function(c,d){var e=b.getElementById("smodernizr"),f=e.sheet||e.styleSheet,g=f?f.cssRules&&f.cssRules[0]?f.cssRules[0].cssText:f.cssText||"":"";a=/src/i.test(g)&&g.indexOf(d.split(" ")[0])===0}),a};for(var H in q)z(q,H)&&(v=H.toLowerCase(),e[v]=q[H](),t.push((e[v]?"":"no-")+v));return e.addTest=function(a,b){if(typeof a=="object")for(var d in a)z(a,d)&&e.addTest(d,a[d]);else{a=a.toLowerCase();if(e[a]!==c)return e;b=typeof b=="function"?b():b,typeof f!="undefined"&&f&&(g.className+=" "+(b?"":"no-")+a),e[a]=b}return e},A(""),i=k=null,e._version=d,e._prefixes=m,e._domPrefixes=p,e._cssomPrefixes=o,e.hasEvent=x,e.testProp=function(a){return E([a])},e.testAllProps=G,e.testStyles=w,e.prefixed=function(a,b,c){return b?G(a,b,c):G(a,"pfx")},g.className=g.className.replace(/(^|\s)no-js(\s|$)/,"$1$2")+(f?" js "+t.join(" "):""),e}(this,this.document);
+</script>
+  <script src="js/moment.js"></script>
+  <link href="css/ionic.css" rel="stylesheet">
+  <script src="js/constant.js"></script>
+  <script src="js/global.js"></script>
+  <script src="js/ionic.bundle.js"></script>
+  <script src="js/guid.js"></script>
+  <script src="js/underscore.js"></script>
+  <script src="js/indexeddb.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/controllers.js"></script>
+  <script src="js/app.js"></script>
+    
+
+  <style>
+      .box {height:300px;padding: 10px}
+  </style>      
+</head>
+
+<body ng-controller="AppCtrl">
+
+<ion-side-menus>
+  <!-- Center content -->
+  <ion-side-menu-content>
+
+    <ion-nav-bar class="nav-title-slide-ios7 bar-positive">
+      <ion-nav-back-button class="button-icon ion-arrow-left-c">
+      </ion-nav-back-button>
+    </ion-nav-bar>
+      <ion-nav-buttons side="left">
+        <button class="button button-icon button-clear ion-navicon" ng-click="toggleLeft()">
+        </button>
+      </ion-nav-buttons>
+      
+             
+    <ion-nav-view animation="slide-left-right" name="main-view"></ion-nav-view>
+
+    <div class="tabs tabs-icon-top">
+      <a class="tab-item" href="#">
+        <i class="icon ion-home"></i>
+        Home
+      </a>
+      <a class="tab-item" href="#/lista">
+        <i class="icon ion-ios7-cart"></i>
+        Lista
+      </a>
+      <a class="tab-item" href="#/vencimento">
+        <i class="icon ion-ios7-calendar"></i>
+        Vencendo
+      </a>
+    </div>    
+
+  </ion-side-menu-content>
+
+  <!-- Left menu -->
+  <ion-side-menu side="left">
+      <ion-header-bar class="bar-positive">
+        <h1 class="title">Menu</h1>
+      </ion-header-bar>
+      <ion-content>
+        <div class="list">
+
+          <a menu-close href="#" class="item item-icon-left">
+            <i class="icon ion-home"></i>
+            Home
+          </a>
+
+          <a menu-close href="#/produto" class="item item-icon-left">
+            <i class="icon ion-grid"></i>
+            Produtos
+          </a>
+
+          <a menu-close href="#/categoria" class="item item-icon-left">
+            <i class="icon ion-code-working"></i>
+            Categorias
+          </a>
+
+          <a menu-close href="#/configuracao" class="item item-icon-left">
+            <i class="icon ion-gear-b"></i>
+            Configuração
+          </a>                
+
+        </div>  
+    </ion-content>
+  </ion-side-menu>
+</ion-side-menus>
+
+<script id="configuracao.html" type="text/ng-template">
+
+   <ion-view title="Configuração">
+    <form name="form">
+      <ion-content>
+        <div class="list">
+          <label class="item item-input item-stacked-label">
+            <span class="input-label">Dias para vencimento</span>
+            <input type="text" placeholder="Mínimo de dias para entrar na lista"  ng-model="configuracao.quantidade_dias_validade"  required>
+          </label>
+          <div class="item">
+              Apagar Dados
+          </div>           
+        </div>
+      </ion-content>
+      <div class="tabs tabs-icon-top">
+        <a class="tab-item"  ng-click="save(configuracao)" ng-disabled="form.$invalid">
+          <i class="icon ion-social-buffer"></i>
+          salvar
+        </a>
+      </div>    
+    </form>
+  </ion-view>
+ 
+  </div>
+</script>   
+
+  <script id="lista.html" type="text/ng-template">
+
+     <ion-view title="Lista">
+      <ion-content>
+        <div class="card">
+          <div class="item item-divider">
+          <i class="icon ion-ios7-cart"></i>
+            Lista de Compras
+          </div>
+          <div class="item item-body">
+            <div class="list">
+              <div class="item" ng-show="ListaVazia()">
+                  <p> Não há item na sua lista de compras</p>
+              </div>
+              <div class="item" ng-repeat="produto in produtos | filter:entraNaLista">
+                <p> {{produto.nome}} Quantidade: {{produto.quantidade}} </p>
+                <div class="button-bar">
+                  <button class="button button-small button-positive" ng-click="add(produto)">adiciona</button>
+                  <button class="button button-small button-positive" ng-click="remove(produto)">retira</button>
+                </div>                  
+              </div>
+            </div>
+          </div>
+        </div> 
+      </ion-content>
+    </ion-view>
+   
+    </div>
+  </script>
+
+  <script id="vencimento.html" type="text/ng-template">
+
+     <ion-view title="Vencimento">
+      <ion-content>
+        <div class="card">
+          <div class="item item-divider">
+          <i class="icon ion-ios7-calendar"></i>
+            Perto do Vencimento
+          </div>
+          <div class="item item-body">
+            <div class="list">
+              <div class="item" ng-show="SemItemsVencendo()">
+                  <p> Não há produtos próximos ao vencimento</p>
+              </div>
+              <div class="item" ng-repeat="produto in produtos | filter:estaVencendo">
+                <p> {{produto.nome}}</p>
+              </div>
+            </div>
+          </div>
+        </div>  
+      </ion-content>
+    </ion-view>
+   
+    </div>
+  </script>   
+
+
+  <script id="home.html" type="text/ng-template">
+ 
+   <ion-view title="Home">
+      <ion-nav-buttons side="right">
+        <button class="button button-icon button-clear ion-ios7-search" ng-click="openModal()">
+        </button>
+      </ion-nav-buttons>      
+      <ion-content>
+        <div class="card">
+          <div class="item item-divider">
+            <i class="icon ion-grid"></i>
+            Produtos
+          </div>
+          <div class="item item-body">
+            <div class="list" >
+              <div class="item" ng-show="ListaProdutoVazia()">
+                  <p> Não há item na sua lista de compras</p>
+              </div>              
+              <div class="item" ng-repeat="produto in produtos | filter:{nome: modal.searchText}">
+                <p> {{produto.nome}} Quantidade: {{produto.quantidade}} </p>
+                <div class="button-bar">
+                  <button class="button button-small button-positive" ng-click="add(produto)">adiciona</button>
+                  <button class="button button-small button-positive" ng-click="remove(produto)">retira</button>
+                </div>                  
+              </div>
+            </div>
+          </div>
+        </div>
+      </ion-content>
+     </ion-view>
+  </script>
+
+
+<script id="produto.html" type="text/ng-template">
+
+   <ion-view title="Produtos">
+      <ion-nav-buttons side="right">
+        <a class="button button-icon button-clear ion-plus-round" href="#/produto-cadastro">
+        </a>
+      </ion-nav-buttons>    
+      <ion-content>
+        <div class="list">
+          <a class="item" href="#/produto-cadastro?id={{item.id}}" ng-repeat="item in items | filter:{nome: modal.searchText}">
+            {{item.nome}}
+            <span class="item-note">
+              {{item.quantidade}}
+            </span>
+          </a>
+        </div>    
+      </ion-content>
+   </ion-view>
+</script>   
+
+<script id="busca.html" type="text/ng-template">
+  <div class="bar bar-header item-input-inset">
+    <label class="item-input-wrapper">
+      <i class="icon ion-ios7-search placeholder-icon"></i>
+      <input type="search" placeholder="busca" ng-model="modal.searchText">
+    </label>
+    <button class="button button-clear" ng-click="closeModal()">
+      cancelar
+    </button>
+  </div>
+</script>
+    
+<script id="produto-cadastro.html" type="text/ng-template">
+
+   <ion-view title="Adicionar">
+      <form name="formProduto">
+        <ion-nav-buttons side="right">
+          <button class="button button-calm" ng-disabled="formProduto.$invalid" ng-click="save(produto)">
+            Salvar
+          </button>
+        </ion-nav-buttons>       
+        <ion-content >
+          <div class="card">
+            <div class="item item-divider">
+              Produto
+            </div>
+            <div class="item item-body">
+              <div class="list">
+                <label class="item item-input item-stacked-label">
+                  <span class="input-label">Nome</span>
+                  <input type="text" placeholder="Nome do produto. Ex Arroz 5kg"  ng-model="produto.nome" ng-minlength="3"  required>
+                </label>
+                <label class="item item-input item-stacked-label">
+                  <span class="input-label">Quantidade</span>
+                  <input type="number" min="0" placeholder="quantidade" ng-model="produto.quantidade" required>
+                </label>            
+                <label class="item item-input item-select">
+                  <div class="input-label">
+                    categoria
+                  </div>
+                  <select ng-model="produto.categoria" ng-options="categoria.id as categoria.nome for categoria in categorias"></select>
+                </label>  
+                <label class="item item-input item-stacked-label">
+                  <span class="input-label">Data de validade</span>
+                  <input type="date" ng-model="produto.data_validade" required>
+                </label>
+                <label class="item item-input">
+                  <div class="input-label">
+                    Lista de Compras
+                  </div>                
+                  <label class="toggle">
+                     <input type="checkbox" ng-model="produto.lista_automatico">
+                     <div class="track">
+                       <div class="handle"></div>
+                     </div>
+                  </label>
+                </label>
+                <label class="item item-input item-stacked-label" ng-show="produto.lista_automatico">
+                  <span class="input-label">Quantidade</span>
+                  <input type="number" min="0" placeholder="quantidade p/ entrar na lista" ng-model="produto.quantidade_lista">
+                </label>                  
+              </div>
+            </div>
+          </div>
+        </ion-content>
+      </form>
+    </ion-view>
+ 
+</script>    
+
+<script id="categoria.html" type="text/ng-template">
+
+   <ion-view title="Categorias">
+      <ion-nav-buttons side="right">
+        <a class="button button-icon button-clear ion-plus-round" href="#categoria-cadastro">
+        </a>
+      </ion-nav-buttons>        
+      <ion-content>
+        <div class="list">
+          <a class="item" href="#/categoria-cadastro?id={{item.id}}" ng-repeat="item in items | filter:{nome: modal.searchText}" >
+            {{item.nome}}
+          </a>
+        </div>    
+      </ion-content>
+    
+    </ion-view>
+ 
+</script> 
+
+
+<script id="categoria-cadastro.html" type="text/ng-template">
+
+   <ion-view title="Adicionar">
+      <form name="form">
+        <ion-content >
+          <ion-nav-buttons side="right">
+            <button class="button button-icon button-clear ion-navicon-round" ng-click="openPopover($event)">
+            </button>
+          </ion-nav-buttons>         
+          <div class="card">
+            <div class="item item-divider">
+              Categoria
+            </div>
+            <div class="item item-body">
+              <div class="list">
+                <label class="item item-input item-stacked-label">
+                  <span class="input-label">Nome</span>
+                    <input type="text" placeholder="Nome do produto. Ex Besteira"  ng-model="categoria.nome" ng-minlength="3"  required>
+                </label>
+              </div>
+            </div>
+          </div>   
+        </ion-content>
+        <div class="tabs tabs-icon-top">
+          <a class="tab-item"  ng-click="save(categoria)" ng-disabled="form.$invalid">
+            <i class="icon ion-social-buffer"></i>
+            salvar
+          </a>
+        </div>         
+      </form>
+    </ion-view>
+ 
+</script> 
+
+<script id="categoria-cadastro-opcoes.html" type="text/ng-template">
+  <ion-popover-view>
+   <ion-content>
+      <div class="list">
+
+        <a class="item item-icon-left" ng-click="save(categoria)" ng-disabled="form.$invalid">
+          <i class="icon icon ion-email"></i>
+          Salvar
+        </a>
+
+        <a class="item item-icon-left" href="#/categoria">
+          <i class="icon ion-funnel"></i>
+          Cancelar
+        </a>        
+      </div>
+   </ion-content>
+  </ion-popover-view>
+</script>
+</body>
+</html>
