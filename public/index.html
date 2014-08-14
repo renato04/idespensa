@@ -3,65 +3,29 @@
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     
-    <title>Sign-in, Then Tabs Example</title>
-
+    <title>Tabs Example</title>
+    <script src="js/moment.js"></script>
     <link href="css/ionic.css" rel="stylesheet">
+    <script src="js/constant.js"></script>
+    <script src="js/global.js"></script>    
     <script src="js/ionic.bundle.js"></script>
+    <script src="js/guid.js"></script>
+    <script src="js/underscore.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/services.js"></script>
+    
   </head>
 
   <body>
     
-    <ion-nav-bar class="bar-positive nav-title-slide-ios7">
+    <ion-nav-bar class="nav-title-slide-ios7 bar-positive">
       <ion-nav-back-button class="button-icon ion-arrow-left-c">
       </ion-nav-back-button>
     </ion-nav-bar>
              
     <ion-nav-view animation="slide-left-right"></ion-nav-view>
 
-    <script id="sign-in.html" type="text/ng-template">
-      <ion-view title="Sign-In">
-        <ion-content>
-          <div class="list">
-            <label class="item item-input">
-              <span class="input-label">Username</span>
-              <input type="text" ng-model="user.username">
-            </label>
-            <label class="item item-input">
-              <span class="input-label">Password</span>
-              <input type="password" ng-model="user.password">
-            </label>
-          </div>
-          <div class="padding">
-            <button class="button button-block button-positive" ng-click="signIn(user)">
-              Sign-In
-            </button>
-            <p class="text-center">
-              <a href="#/forgot-password">Forgot password</a>
-            </p>
-          </div>
-        </ion-content>
-      </ion-view>
-    </script>
 
-    <script id="forgot-password.html" type="text/ng-template">
-      <ion-view title="Forgot Password">
-        <ion-content padding="true">
-          <p>
-            Yeah this is just a demo showing how views can be shown without tabs, then you can navigate
-            to views within tabs. Additionally, only one set of tabs needs to be written for all of the different views that should go inside the tabs. (Compared to written the same tab links in the footer of every view that's in a tab.)
-          </p>
-          <p>
-            There's no username/password, just click
-            the Sign-In button back a the sign-in view.
-          </p>
-          <p>
-            Return to <a href="#/sign-in">Sign-In</a>.
-          </p>
-        </ion-content>
-      </ion-view>
-    </script>
-    
     <script id="tabs.html" type="text/ng-template">
       <ion-tabs class="tabs-icon-top tabs-positive">
 
@@ -69,41 +33,202 @@
           <ion-nav-view name="home-tab" animation="slide-left-right"></ion-nav-view>
         </ion-tab>
 
-        <ion-tab title="About" icon="ion-ios7-information" href="#/tab/about">
+        <ion-tab title="Sobre" icon="ion-ios7-information" href="#/tab/about">
           <ion-nav-view name="about-tab" animation="slide-left-right"></ion-nav-view>
         </ion-tab>
 
-        <ion-tab title="Sign-Out" icon="ion-log-out" href="#/sign-in">
-        </ion-tab>
-
+        <ion-tab title="Configuração" icon="ion-gear-a" href="#/tab/config">
+          <ion-nav-view name="config-tab" animation="slide-left-right"></ion-nav-view>
+        </ion-tab>        
       </ion-tabs>
     </script>
 
-    <script id="home.html" type="text/ng-template">
-      <ion-view title="Home">
-        <ion-content>
+<script id="config.html" type="text/ng-template">
 
+   <ion-view title="Configuração">
+    <form name="form">
+      <ion-nav-buttons side="right">
+        <button class="button button-calm" ng-disabled="form.$invalid" ng-click="save(config)">
+          Salvar
+        </button>
+      </ion-nav-buttons>            
+      <ion-content>
+        <div class="list">
+          <label class="item item-input item-stacked-label">
+            <span class="input-label">Dias para vencimento</span>
+            <input type="text" placeholder="Mínimo de dias para entrar na lista"  ng-model="config.quantidade_dias_validade"  required>
+          </label>
+        </div>
+      </ion-content>
+    </form>
+  </ion-view>
+ 
+  </div>
+</script>      
+
+    <script id="home.html" type="text/ng-template">
+      <ion-view title="iDepensa">
+        <ion-nav-buttons side="right">
+          <a class="button button-icon button-clear ion-navicon-round"  ng-click="openPopover($event)">
+          </a>
+        </ion-nav-buttons>       
+        <ion-content>
+          <div class="list">
+            <a class="item slide-in-left"  
+              ng-repeat="item in items | filter:{nome: modal.searchText}" ng-click="openModal(item)" gesture-on-hold="showActionsheet(item)">
+              {{item.nome}}
+              <span class="item-note">
+                {{item.quantidade}}
+              </span>              
+            </a>
+          </div>    
         </ion-content>
       </ion-view>
     </script>
 
+    <script id="menu.html" type="text/ng-template">
+      <ion-popover-view>
+        <ion-header-bar>
+          <h1 class="title">Menu</h1>
+        </ion-header-bar>
+        <ion-content>
+          <div class="list">
+
+            <a class="item"  ng-click="goProduto()">
+              <i class="icon ion-plus-round"></i>
+              Adicionar
+            </a>
+            <a class="item"  ng-click="goDespensa()">
+              <i class="icon ion-social-buffer"></i>
+              Despensa
+            </a>            
+            <a class="item"  ng-click="goLista()">
+              <i class="icon ion-ios7-cart"></i>
+              Lista de Compras
+            </a>
+            <a class="item"  ng-click="goVencendo()">
+            <i class="icon ion-calendar"></i>
+              Itens Vencendo
+            </a>            
+          </div>
+        </ion-content>
+      </ion-popover-view>
+    </script>    
+
+    <script id="quantidade.html" type="text/ng-template">
+        <ion-modal-view>
+          <div class="bar bar-header bar-positive">
+            <h1 class="title">Quantidade</h1>
+          </div>
+          <ion-content>
+            <div class="card" style="margin-top:20%;">
+              <div class="item item-divider">
+                <i class="icon ion-grid"></i>
+                {{produto.nome}}
+              </div>
+              <div class="item item-body">
+                <div class="list" >
+               
+                  <div class="item" >
+                    <h1>  Quantidade: {{produto.quantidade}} </h1>
+                    <div class="button-bar">
+                      <button class="button button-small button-positive" ng-click="add(produto)">adiciona</button>
+                      <button class="button button-small button-positive" ng-click="remove(produto)">retira</button>
+                    </div>                  
+                  </div>
+                </div>
+              </div>
+            </div> 
+          </ion-content>
+          <div class="tabs tabs-icon-only tabs-positive">
+            <a class="tab-item" ng-click="closeModal()">
+              <i class="icon ion-close-round"></i>
+            </a>
+          </div>  
+        </ion-modal-view>
+    </script>    
+
+    <script id="produto.html" type="text/ng-template">
+
+       <ion-view title="Adicionar">
+          <form name="formProduto">
+            <ion-nav-buttons side="right">
+              <button class="button button-calm" ng-disabled="formProduto.$invalid" ng-click="save(produto)">
+                Salvar
+              </button>
+            </ion-nav-buttons>         
+            <ion-content >
+              <div class="card">
+                <div class="item item-divider">
+                  Produto
+                </div>
+                <div class="item item-body">
+                  <div class="list">
+                    <label class="item item-input item-stacked-label">
+                      <span class="input-label">Nome</span>
+                      <input type="text" placeholder="Nome do produto. Ex Arroz 5kg"  ng-model="produto.nome" ng-minlength="3"  required>
+                    </label>
+                    <label class="item item-input item-stacked-label">
+                      <span class="input-label">Quantidade</span>
+                      <input type="number" min="0" placeholder="quantidade" ng-model="produto.quantidade" required>
+                    </label>            
+                    <label class="item item-input item-stacked-label">
+                      <span class="input-label">Data de validade</span>
+                      <input type="date" ng-model="produto.data_validade" required>
+                    </label>
+                    <label class="item item-input">
+                      <div class="input-label">
+                        Lista de Compras
+                      </div>                
+                      <label class="toggle">
+                         <input type="checkbox" ng-model="produto.lista_automatico">
+                         <div class="track">
+                           <div class="handle"></div>
+                         </div>
+                      </label>
+                    </label>
+                    <label class="item item-input item-stacked-label" ng-show="produto.lista_automatico">
+                      <span class="input-label">Quantidade</span>
+                      <input type="number" min="0" placeholder="quantidade p/ entrar na lista" ng-model="produto.quantidade_lista">
+                    </label>                  
+                  </div>
+                </div>
+              </div>
+            </ion-content>
+          </form>
+        </ion-view>
+     
+    </script>        
+
     <script id="about.html" type="text/ng-template">
-      <ion-view title="About">
-        <ion-content padding="true">
-          <h3>Create hybrid mobile apps with the web technologies you love.</h3>
-          <p>Free and open source, Ionic offers a library of mobile-optimized HTML, CSS and JS components for building highly interactive apps.</p>
-          <p>Built with Sass and optimized for AngularJS.</p>
-          <p>
-            <a class="button icon icon-right ion-chevron-right" href="#/tab/navstack">Tabs Nav Stack</a>
-          </p>
+      <ion-view title="Sobre">
+        <ion-content class="padding">
+          <h3>iDespensa</h3>
+          <p>Versão: 1.0.0.1</p>
+          <p>Controle a sua despensa.</p>
         </ion-content>
       </ion-view>
     </script>
 
     <script id="nav-stack.html" type="text/ng-template">
       <ion-view title="Tab Nav Stack">
-        <ion-content padding="true">
+        <ion-content class="padding">
           <p><img src="http://ionicframework.com/img/diagrams/tabs-nav-stack.png" style="width:100%"></p>
+        </ion-content>
+      </ion-view>
+    </script>
+
+    <script id="contact.html" type="text/ng-template">
+      <ion-view title="Contact">
+        <ion-content>
+          <div class="list">
+            <div class="item">
+              @IonicFramework
+            </div>
+            <div class="item">
+              @DriftyTeam
+            </div>
+          </div>
         </ion-content>
       </ion-view>
     </script>
