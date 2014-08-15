@@ -101,6 +101,9 @@ angular.module('ionicApp', ['ionic'])
   $scope.produto = {};
   $scope.items = [];
 
+  document.body.classList.remove('platform-ios');
+  document.body.classList.remove('platform-android');
+  document.body.classList.add('platform-android');
   $ionicModal.fromTemplateUrl('quantidade.html', {
     scope: $scope,
     animation: 'slide-in-up'
@@ -145,6 +148,10 @@ angular.module('ionicApp', ['ionic'])
     produto.quantidade -= 1;
     persistanceService.saveProduto(produto);
   };   
+
+  $scope.listaVazia = function(){
+    return $scope.items.length == 0;
+  };
 
   $scope.goDespensa = function() {
     $scope.closePopover();
@@ -248,7 +255,7 @@ angular.module('ionicApp', ['ionic'])
       $scope.items = res;
     });  
   } else {
-    $location.path('/unsupported');
+    alert("Esse dispositivo não fornece suporte a esse aplicativo");
   }  
 })
 .controller('ProdutoController', function($scope, $ionicNavBarDelegate, $ionicPopup, $location, persistanceService){
